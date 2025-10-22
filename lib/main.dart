@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scheduler/pages/splash_screen.dart';
+import 'package:scheduler/cubits/user_cubit.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 Future<void> main() async {
@@ -20,6 +22,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(title: 'Team Scheduler', home: SplashScreen());
+    return BlocProvider(
+      create: (context) => UserCubit()..loadSavedUser(),
+      child: MaterialApp(title: 'Team Scheduler', home: SplashScreen()),
+    );
   }
 }
