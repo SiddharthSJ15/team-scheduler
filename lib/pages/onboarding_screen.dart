@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -161,7 +162,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         title: const Text('Create Your Profile'),
-        centerTitle: !kIsWeb,
+        centerTitle: !kIsWeb, // Center on mobile, left on web
         elevation: 0,
         scrolledUnderElevation: 2,
       ),
