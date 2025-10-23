@@ -1,16 +1,77 @@
-# scheduler
+# Team Scheduler
 
-A new Flutter project.
+A Flutter application for team scheduling and task management.
 
-## Getting Started
+## Prerequisites
 
-This project is a starting point for a Flutter application.
+- Flutter SDK (version 3.8.0 or higher)
+- Dart SDK
+- Android Studio / VS Code with Flutter extensions
+- Git
 
-A few resources to get you started if this is your first Flutter project:
+## Installation
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+1. Clone the repository:
+```bash
+git clone <repository-url>
+cd scheduler
+```
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+2. Install dependencies:
+```bash
+flutter pub get
+```
+
+3. Run the application:
+```bash
+flutter run
+```
+
+## Setup
+
+### Android Setup
+- Ensure Android SDK is installed
+- Connect an Android device or start an emulator
+- Run `flutter doctor` to verify setup
+
+### iOS Setup (macOS only)
+- Install Xcode
+- Run `flutter doctor` to verify setup
+- Connect an iOS device or start the iOS simulator
+
+## Dependencies
+
+- `supabase_flutter`: Backend services
+- `flutter_bloc`: State management
+- `image_picker`: Image selection functionality
+- `shared_preferences`: Local data storage
+- `intl`: Internationalization support
+
+## Project Structure
+
+```
+lib/
+├── cubits/          # State management
+├── models/          # Data models
+├── pages/           # UI screens
+├── services/        # API services
+└── main.dart        # App entry point
+```
+
+## Running Tests
+
+```bash
+flutter test
+```
+
+## Building for Production
+
+### Android
+```bash
+flutter build apk --release
+```
+
+### iOS
+```bash
+flutter build ios --release
+```
