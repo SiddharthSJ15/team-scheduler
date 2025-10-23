@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:scheduler/pages/splash_screen.dart';
 import 'package:scheduler/cubits/user_cubit.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -8,17 +7,19 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await dotenv.load(fileName: ".env");
+  // Read environment variables using compile-time constants
+  const supabaseUrl = String.fromEnvironment('SUPABASE_URL');
+  const supabaseAnonKey = String.fromEnvironment('SUPABASE_ANON_KEY');
 
   final res = await Supabase.initialize(
-    url: dotenv.env['SUPABASE_URL']!,
-    anonKey: dotenv.env['SUPABASE_ANON_KEY']!,
+    url: supabaseUrl,
+    anonKey: supabaseAnonKey,
   );
   print(res.isInitialized);
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
-// Get a reference your Supabase client
+// Get a reference to your Supabase client
 final supabase = Supabase.instance.client;
 
 class MyApp extends StatelessWidget {
