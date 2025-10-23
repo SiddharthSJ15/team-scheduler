@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:scheduler/pages/splash_screen.dart';
 import 'package:scheduler/cubits/user_cubit.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await dotenv.load(fileName: ".env");
+
   final res = await Supabase.initialize(
-    url: 'https://wjcdutzlamxihrgkxkad.supabase.co',
-    anonKey:
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndqY2R1dHpsYW14aWhyZ2t4a2FkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc5MjM2MzUsImV4cCI6MjA3MzQ5OTYzNX0.GRj0ikI2hnF_ISO1af_q8GTGaG4DgWCvB7_JiHErZ3Y',
+    url: dotenv.env['SUPABASE_URL']!,
+    anonKey: dotenv.env['SUPABASE_ANON_KEY']!,
   );
   print(res.isInitialized);
   runApp(MyApp());
@@ -24,7 +28,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => UserCubit()..loadSavedUser(),
-      child: MaterialApp(title: 'Team Scheduler', home: SplashScreen()),
+      child: MaterialApp(
+        title: 'Team Scheduler',
+        debugShowCheckedModeBanner: false,
+        home: SplashScreen(),
+      ),
     );
   }
 }
