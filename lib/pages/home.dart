@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:scheduler/cubits/availability_cubit.dart';
 import 'package:scheduler/cubits/user_cubit.dart';
+import 'package:scheduler/pages/availability_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -38,6 +40,20 @@ class HomeScreen extends StatelessWidget {
                       const SizedBox(height: 8),
                       const Text(
                         'This is a minimal home screen for your test.',
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => BlocProvider(
+                                create: (_) => AvailabilityCubit(),
+                                child: const AvailabilityScreen(),
+                              ),
+                            ),
+                          );
+                        },
+                        child: const Text('Manage Availability'),
                       ),
                     ],
                   )

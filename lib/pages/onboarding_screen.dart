@@ -93,7 +93,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       if (!mounted) return;
       Navigator.of(
         context,
-      ).pushReplacement(MaterialPageRoute(builder: (_) => const HomeScreen()));
+      ).pushReplacement(MaterialPageRoute(builder: (_) => HomeScreen()));
     } else if (state is UserError) {
       if (!mounted) return;
       ScaffoldMessenger.of(
