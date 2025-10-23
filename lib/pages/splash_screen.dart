@@ -19,40 +19,56 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Future<void> _loading() async {
     await Future.delayed(const Duration(milliseconds: 700));
-    final cubit = context.read<UserCubit>();
-
-    final state = cubit.state;
-    if (state is UserAuthenticated) {
-      if (!mounted) return;
-      Navigator.of(
-        context,
-      ).pushReplacement(MaterialPageRoute(builder: (_) => const HomeScreen()));
-      return;
-    }
-
-    await Future.delayed(const Duration(milliseconds: 300));
-    final newState = cubit.state;
-    if (newState is UserAuthenticated) {
-      if (!mounted) return;
-      Navigator.of(
-        context,
-      ).pushReplacement(MaterialPageRoute(builder: (_) => const HomeScreen()));
-      return;
-    }
-
-    if (!mounted) return;
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(builder: (_) => const OnboardingScreen()),
-    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: Text(
-          'Team Scheduler',
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+    return BlocListener<UserCubit, UserState>(
+      listener: (context, state) {
+        if (state is UserAuthenticated) {
+          Navigator.of(
+            context,
+          ).pushReplacement(MaterialPageRoute(builder: (_) => HomeScreen()));
+        } else if (state is UserUnauthenticated) {
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (_) => OnboardingScreen()),
+          );
+        }
+      },
+      child: Scaffold(
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Team Scheduler',
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 20),
+              BlocBuilder<UserCubit, UserState>(
+                builder: (context, state) {
+                  if (state is UserLoading) {
+                    return CircularProgressIndicator();
+                  } else if (state is UserError) {
+                    return Column(
+                      children: [
+                        Icon(Icons.error, color: Colors.red),
+                        Text('Error: ${state.message}'),
+                        SizedBox(height: 10),
+                        ElevatedButton(
+                          onPressed: () {
+                            context.read<UserCubit>().loadSavedUser();
+                          },
+                          child: Text('Retry'),
+                        ),
+                      ],
+                    );
+                  }
+                  return SizedBox();
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );

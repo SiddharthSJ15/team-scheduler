@@ -91,4 +91,48 @@ class SupabaseService {
       return null;
     }
   }
+
+  // Availability
+  static Future<List<Map<String, dynamic>>> getAvailability(
+    String userId,
+  ) async {
+    try {
+      final res = await _supabase
+          .from('availability')
+          .select()
+          .eq('user_id', userId)
+          .order('start_time', ascending: true);
+      return List<Map<String, dynamic>>.from(res);
+    } catch (e) {
+      debugPrint('getAvailability error: $e');
+      return [];
+    }
+  }
+
+  static Future<bool> addAvailability({
+    required String userId,
+    required DateTime start,
+    required DateTime end,
+  }) async {
+    try {
+      await _supabase.from('availability').insert({
+        'user_id': userId,
+        'start_time': start.toIso8601String(),
+        'end_time': end.toIso8601String(),
+      });
+      return true;
+    } catch (e) {
+      debugPrint('addAvailability error: $e');
+      return false;
+    }
+  }
+
+  static Future<void> deleteAvailability(int id) async {
+    try {
+      await _supabase.from('availability').delete().eq('id', id);
+    } catch (e) {
+      debugPrint('deleteAvailability error: $e');
+    }
+  }
+
 }
